@@ -6,11 +6,10 @@ Created on Wed Oct 25 11:00:11 2017
 """
 import pandas as pd
 import json
-import numpy as np
 
 data = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_DailyMail_comments.json") as f:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_DailyMail_comments.json") as f:
     data = json.loads(f.readline())
     
 data=pd.DataFrame(data)
@@ -29,7 +28,7 @@ data = data.drop('likes', 1)
 
 data_BBC = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_BBC_comments.json") as g:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_BBC_comments.json") as g:
     data_BBC = json.loads(g.readline())
     
 data_BBC=pd.DataFrame(data_BBC)
@@ -49,7 +48,7 @@ data_BBC = data_BBC.drop('i', 1)
 
 data_guardian = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_Guardian_comments.json") as h:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_Guardian_comments.json") as h:
     data_guardian = json.loads(h.readline())
     
 data_guardian=pd.DataFrame(data_guardian)
@@ -68,7 +67,7 @@ data_guardian = data_guardian.drop('likes', 1)
 
 data_huff = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_HuffingtonPost_comments.json") as h:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_HuffingtonPost_comments.json") as h:
     data_huff = json.loads(h.readline())
     
 data_huff=pd.DataFrame(data_huff)
@@ -87,7 +86,7 @@ data_huff = data_huff.drop('likes', 1)
 
 data_indy = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_Independent_comments.json") as f:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_Independent_comments.json") as f:
     data_indy = json.loads(f.readline())
     
 data_indy=pd.DataFrame(data_indy)
@@ -106,7 +105,7 @@ data_indy = data_indy.drop('likes', 1)
 
 data_standard = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_Standard_comments.json") as h:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_Standard_comments.json") as h:
     data_standard = json.loads(h.readline())
     
 data_standard=pd.DataFrame(data_standard)
@@ -125,14 +124,14 @@ data_standard = data_standard.drop('likes', 1)
 
 data_sun = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_TheSun_comments.json") as h:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_TheSun_comments.json") as h:
     data_sun = json.loads(h.readline())
     
 data_sun=pd.DataFrame(data_sun)
 
 data_sun['id'] = data_sun['from'].apply(lambda x : x['id'])
 data_sun['name'] = data_sun['from'].apply(lambda x : x['name'])
-data_sun['ratio']=data_sun['like_count'].apply(data_sun['ratio'] / data_sun['comment_count'] : ['ratio'])
+#data_sun['ratio']=data_sun['like_count'].apply(data_sun['ratio'] / data_sun['comment_count'] : ['ratio'])
 
 #df.loc('id') = data_sun["id"]
 #df.loc('name') = data_sun["name"]
@@ -145,7 +144,7 @@ data_sun = data_sun.drop('likes', 1)
 
 data_tely = []
 
-with open("C:\Users\cmorris\Downloads\Grenfell_Telegraph_comments.json") as h:
+with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_Telegraph_comments.json") as h:
     data_tely = json.loads(h.readline())
     
 data_tely=pd.DataFrame(data_tely)
@@ -155,5 +154,10 @@ data_tely['name'] = data_tely['from'].apply(lambda x : x['name'])
 
 #df.loc('id') = data_tely["id"]
 #df.loc('name') = data_tely["name"]
+
+data_tely = data_tely.drop('from', 1)
+data_tely = data_tely.drop('parent_id', 1)
+data_tely = data_tely.drop('id', 1)
+data_tely = data_tely.drop('likes', 1)
 
 s = pd.Series(data =[ 0.2, 0.3, 0.5], index = ['a','b','c'])
