@@ -7,7 +7,37 @@ Created on Wed Oct 25 11:00:11 2017
 import pandas as pd
 import json
 
-#------------------------------Daily Mail Section------------------------------
+#----------------------------Lexicon setup section-----------------------------
+
+lexicon = pd.read_csv('C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\lexicon.csv',header=None, sep=',')
+
+lexicon = lexicon.rename(columns = {0:'word'})
+lexicon = lexicon.rename(columns = {1:'anger'})
+lexicon = lexicon.rename(columns = {2:'anticipation'})
+lexicon = lexicon.rename(columns = {3:'disgust'})
+lexicon = lexicon.rename(columns = {4:'fear'})
+lexicon = lexicon.rename(columns = {5:'joy'})
+lexicon = lexicon.rename(columns = {6:'negative'})
+lexicon = lexicon.rename(columns = {7:'positive'})
+lexicon = lexicon.rename(columns = {8:'sadness'})
+lexicon = lexicon.rename(columns = {9:'suprise'})
+lexicon = lexicon.rename(columns = {10:'trust'})
+lexicon = lexicon.drop(lexicon.index[0])
+
+def get_Score(paragraph):
+    paragraph=paragraph.lower()
+    split_paragraph = paragraph.split()
+    score = 0
+    for word in split_paragraph:
+        
+        word_positivity=0
+        if word in lexicon.word.values:
+            row = lexicon.loc[lexicon.word == word].copy()
+            word_positivity=row.positive.values[0]-row.negative.values[0]
+        score=score + word_positivity
+    return score
+
+#-----------------------------Daily Mail Section-------------------------------
 
 data = []
 
@@ -27,13 +57,15 @@ data = data.drop('parent_id', 1)
 data = data.drop('id', 1)
 data = data.drop('likes', 1)
 
+data['ratio'] = data['comment_count']/data['like_count']
+
 Mail_orig = data
 
 data = data[data.like_count != 0]
+paragraph=data['message']
+data['rating']=data['message'].apply(get_score(paragraph))
 
-data['ratio'] = data['comment_count']/data['like_count']
-
-#---------------------------------BBC Section----------------------------------
+#--------------------------------BBC Section-----------------------------------
 
 data_BBC = []
 
@@ -54,13 +86,16 @@ data_BBC = data_BBC.drop('id', 1)
 data_BBC = data_BBC.drop('likes', 1)
 data_BBC = data_BBC.drop('i', 1)
 
+data_BBC['ratio'] = data_BBC['comment_count']/data_BBC['like_count']
+
 BBC_orig = data_BBC
 
 data_BBC = data_BBC[data_BBC.like_count != 0]
 
-data_BBC['ratio'] = data_BBC['comment_count']/data_BBC['like_count']
+paragraph=data_BBC['message']
+data_BBC['rating']=data_BBC['message'].apply(get_score(paragraph))
 
-#-------------------------------Guardian Section-------------------------------
+#------------------------------Guardian Section--------------------------------
 
 data_guardian = []
 
@@ -80,13 +115,16 @@ data_guardian = data_guardian.drop('parent_id', 1)
 data_guardian = data_guardian.drop('id', 1)
 data_guardian = data_guardian.drop('likes', 1)
 
+data_guardian['ratio'] = data_guardian['comment_count']/data_guardian['like_count']
+
 guardian_orig = data_guardian
 
 data_guardian = data_guardian[data_guardian.like_count != 0]
 
-data_guardian['ratio'] = data_guardian['comment_count']/data_guardian['like_count']
+paragraph=data_guardian['message']
+data_guardian['rating']=data_guardian['message'].apply(get_score(paragraph))
 
-#----------------------------Huffington Post Section---------------------------
+#---------------------------Huffington Post Section----------------------------
 
 data_huff = []
 
@@ -106,13 +144,16 @@ data_huff = data_huff.drop('parent_id', 1)
 data_huff = data_huff.drop('id', 1)
 data_huff = data_huff.drop('likes', 1)
 
+data_huff['ratio'] = data_huff['comment_count']/data_huff['like_count']
+
 huff_orig = data_huff
 
 data_huff = data_huff[data_huff.like_count != 0]
 
-data_huff['ratio'] = data_huff['comment_count']/data_huff['like_count']
+paragraph=data_huff['message']
+data_huff['rating']=data_huff['message'].apply(get_score(paragraph))
 
-#-----------------------------Independent Section------------------------------
+#----------------------------Independent Section-------------------------------
 
 data_indy = []
 
@@ -132,13 +173,16 @@ data_indy = data_indy.drop('parent_id', 1)
 data_indy = data_indy.drop('id', 1)
 data_indy = data_indy.drop('likes', 1)
 
+data_indy['ratio'] = data_indy['comment_count']/data_indy['like_count']
+
 indy_orig= data_indy
 
 data_indy = data_indy[data_indy.like_count != 0]
 
-data_indy['ratio'] = data_indy['comment_count']/data_indy['like_count']
+paragraph=data_indy['message']
+data_indy['rating']=data_indy['message'].apply(get_score(paragraph))
 
-#-------------------------------Standard Section-------------------------------
+#------------------------------Standard Section--------------------------------
 
 data_standard = []
 
@@ -158,11 +202,14 @@ data_standard = data_standard.drop('parent_id', 1)
 data_standard = data_standard.drop('id', 1)
 data_standard = data_standard.drop('likes', 1)
 
+data_standard['ratio'] = data_standard['comment_count']/data_standard['like_count']
+
 standard_orig = data_standard
 
 data_standard = data_standard[data_standard.like_count != 0]
 
-data_standard['ratio'] = data_standard['comment_count']/data_standard['like_count']
+paragraph=data_standard['message']
+data_standard['rating']=data_standard['message'].apply(get_score(paragraph))
 
 #---------------------------------Sun Section----------------------------------
 
@@ -184,13 +231,16 @@ data_sun = data_sun.drop('parent_id', 1)
 data_sun = data_sun.drop('id', 1)
 data_sun = data_sun.drop('likes', 1)
 
+data_sun['ratio'] = data_sun['comment_count']/data_sun['like_count']
+
 sun_orig = data_sun
 
 data_sun = data_sun[data_sun.like_count != 0]
 
-data_sun['ratio'] = data_sun['comment_count']/data_sun['like_count']
+paragraph=data_sun['message']
+data_sun['rating']=data_sun['message'].apply(get_score(paragraph))
 
-#------------------------------Telegraph Section-------------------------------
+#-----------------------------Telegraph Section--------------------------------
 
 data_tely = []
 
@@ -210,19 +260,22 @@ data_tely = data_tely.drop('parent_id', 1)
 data_tely = data_tely.drop('id', 1)
 data_tely = data_tely.drop('likes', 1)
 
+data_tely['ratio'] = data_tely['comment_count']/data_tely['like_count']
+
 tely_orig = data_tely
 
 data_tely = data_tely[data_tely.like_count != 0]
 
-data_tely['ratio'] = data_tely['comment_count']/data_tely['like_count']
+d = []
 
-#------------------------------------------------------------------------------
+paragraph=data_tely['message']
+data_tely['rating']=data_tely['message'].apply(get_score(paragraph))
+
+#----------------------------Combination Section-------------------------------
 
 combined=data_tely.append([data_sun, data_standard, data_indy, data_huff, data_guardian, data_BBC, data])
 
 combined_with_0s=tely_orig.append([sun_orig, standard_orig, indy_orig, huff_orig, guardian_orig, BBC_orig, Mail_orig])
-
-
 
 
 
