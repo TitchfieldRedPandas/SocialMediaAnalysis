@@ -7,6 +7,8 @@ Created on Wed Oct 25 11:00:11 2017
 import pandas as pd
 import json
 
+#------------------------------Daily Mail Section------------------------------
+
 data = []
 
 with open("C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\Grenfell_DailyMail_comments.json") as f:
@@ -25,6 +27,13 @@ data = data.drop('parent_id', 1)
 data = data.drop('id', 1)
 data = data.drop('likes', 1)
 
+Mail_orig = data
+
+data = data[data.like_count != 0]
+
+data['ratio'] = data['comment_count']/data['like_count']
+
+#---------------------------------BBC Section----------------------------------
 
 data_BBC = []
 
@@ -45,6 +54,13 @@ data_BBC = data_BBC.drop('id', 1)
 data_BBC = data_BBC.drop('likes', 1)
 data_BBC = data_BBC.drop('i', 1)
 
+BBC_orig = data_BBC
+
+data_BBC = data_BBC[data_BBC.like_count != 0]
+
+data_BBC['ratio'] = data_BBC['comment_count']/data_BBC['like_count']
+
+#-------------------------------Guardian Section-------------------------------
 
 data_guardian = []
 
@@ -64,6 +80,13 @@ data_guardian = data_guardian.drop('parent_id', 1)
 data_guardian = data_guardian.drop('id', 1)
 data_guardian = data_guardian.drop('likes', 1)
 
+guardian_orig = data_guardian
+
+data_guardian = data_guardian[data_guardian.like_count != 0]
+
+data_guardian['ratio'] = data_guardian['comment_count']/data_guardian['like_count']
+
+#----------------------------Huffington Post Section---------------------------
 
 data_huff = []
 
@@ -83,6 +106,13 @@ data_huff = data_huff.drop('parent_id', 1)
 data_huff = data_huff.drop('id', 1)
 data_huff = data_huff.drop('likes', 1)
 
+huff_orig = data_huff
+
+data_huff = data_huff[data_huff.like_count != 0]
+
+data_huff['ratio'] = data_huff['comment_count']/data_huff['like_count']
+
+#-----------------------------Independent Section------------------------------
 
 data_indy = []
 
@@ -102,6 +132,13 @@ data_indy = data_indy.drop('parent_id', 1)
 data_indy = data_indy.drop('id', 1)
 data_indy = data_indy.drop('likes', 1)
 
+indy_orig= data_indy
+
+data_indy = data_indy[data_indy.like_count != 0]
+
+data_indy['ratio'] = data_indy['comment_count']/data_indy['like_count']
+
+#-------------------------------Standard Section-------------------------------
 
 data_standard = []
 
@@ -121,6 +158,13 @@ data_standard = data_standard.drop('parent_id', 1)
 data_standard = data_standard.drop('id', 1)
 data_standard = data_standard.drop('likes', 1)
 
+standard_orig = data_standard
+
+data_standard = data_standard[data_standard.like_count != 0]
+
+data_standard['ratio'] = data_standard['comment_count']/data_standard['like_count']
+
+#---------------------------------Sun Section----------------------------------
 
 data_sun = []
 
@@ -131,7 +175,6 @@ data_sun=pd.DataFrame(data_sun)
 
 data_sun['id'] = data_sun['from'].apply(lambda x : x['id'])
 data_sun['name'] = data_sun['from'].apply(lambda x : x['name'])
-#data_sun['ratio']=data_sun['like_count'].apply(data_sun['ratio'] / data_sun['comment_count'] : ['ratio'])
 
 #df.loc('id') = data_sun["id"]
 #df.loc('name') = data_sun["name"]
@@ -141,6 +184,13 @@ data_sun = data_sun.drop('parent_id', 1)
 data_sun = data_sun.drop('id', 1)
 data_sun = data_sun.drop('likes', 1)
 
+sun_orig = data_sun
+
+data_sun = data_sun[data_sun.like_count != 0]
+
+data_sun['ratio'] = data_sun['comment_count']/data_sun['like_count']
+
+#------------------------------Telegraph Section-------------------------------
 
 data_tely = []
 
@@ -159,5 +209,21 @@ data_tely = data_tely.drop('from', 1)
 data_tely = data_tely.drop('parent_id', 1)
 data_tely = data_tely.drop('id', 1)
 data_tely = data_tely.drop('likes', 1)
+
+tely_orig = data_tely
+
+data_tely = data_tely[data_tely.like_count != 0]
+
+data_tely['ratio'] = data_tely['comment_count']/data_tely['like_count']
+
+#------------------------------------------------------------------------------
+
+combined=data_tely.append([data_sun, data_standard, data_indy, data_huff, data_guardian, data_BBC, data])
+
+combined_with_0s=tely_orig.append([sun_orig, standard_orig, indy_orig, huff_orig, guardian_orig, BBC_orig, Mail_orig])
+
+
+
+
 
 s = pd.Series(data =[ 0.2, 0.3, 0.5], index = ['a','b','c'])
