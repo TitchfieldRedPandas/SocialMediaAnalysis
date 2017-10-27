@@ -5,8 +5,6 @@ Created on Thu Oct 26 10:40:21 2017
 @author: cmorris
 """
 import pandas as pd
-import csv
-import nltk
 
 lexicon = pd.read_csv('C:\Users\cmorris\Desktop\Harrys_project\SocialMediaAnalysis\lexicon.csv',header=None, sep=',')
 
@@ -27,7 +25,7 @@ lexicon.positive = lexicon.positive.astype(int)
 lexicon.negative = lexicon.negative.astype(int)
 
 
-paragraph = 'evil'
+paragraph = ''
 
 def get_Score(paragraph):
     paragraph=paragraph.lower()
